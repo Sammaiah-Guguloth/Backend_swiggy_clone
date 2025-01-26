@@ -30,5 +30,5 @@ app.listen(PORT, () => {
 });
 
 app.get("/", (req, res) => {
-  res.send("Hello World");
+  res.send("<h1> Welcome to Swiggy Clone API by Sammaiah Guguloth</h1>");
 });
