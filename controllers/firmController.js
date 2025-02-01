@@ -17,7 +17,7 @@ const upload = multer({ storage: storage });
 
 const addFirm = async (req, res) => {
   const { firmName, area, category, region, offer } = req.body;
-  console.log(req.body);
+  console.log("req body : ", req.body);
   console.log("file : ", req.file);
   const file = req.file ? req.file.filename : undefined;
   console.log("filename : ", file);
@@ -27,6 +27,13 @@ const addFirm = async (req, res) => {
       return res.status(404).json({
         success: false,
         message: "Vendor not found ",
+      });
+    }
+
+    if (vendor.firm.length > 0) {
+      return res.status(400).json({
+        success: false,
+        message: "vendor can have only one firm",
       });
     }
 
@@ -48,6 +55,7 @@ const addFirm = async (req, res) => {
     res.status(200).json({
       success: true,
       message: "Firm added successfully",
+      firmId: savedFirm._id,
     });
   } catch (error) {
     console.log("error while adding the firm : ", error);

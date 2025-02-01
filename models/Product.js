@@ -14,7 +14,7 @@ const productSchema = new mongoose.Schema({
     type: [
       {
         type: String,
-        enum: ["veg", "nog-veg"],
+        enum: ["veg", "non-veg"],
       },
     ],
   },
@@ -28,6 +28,9 @@ const productSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Firm",
     required: true,
+  },
+  image: {
+    type: String,
   },
 });
 

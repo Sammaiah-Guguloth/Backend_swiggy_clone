@@ -2,6 +2,7 @@ const Vendor = require("../models/Vendor");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const dotenv = require("dotenv");
+const mongoose = require("mongoose");
 
 dotenv.config();
 
@@ -66,6 +67,7 @@ const vendorLogin = async (req, res) => {
     res.status(200).json({
       success: true,
       token,
+      vendorId: vendor._id,
       message: "Vendor logged in successfully",
     });
   } catch (error) {
@@ -96,6 +98,14 @@ const getAllVendors = async (req, res) => {
 
 const getVendorById = async (req, res) => {
   const vendorId = req.params.id;
+
+  if (!vendorId) {
+    return res.status(400).json({
+      success: false,
+      message: "Vendor is required",
+    });
+  }
+
   try {
     const vendor = await Vendor.findById(vendorId).populate("firm");
 
@@ -106,15 +116,19 @@ const getVendorById = async (req, res) => {
       });
     }
 
+    const vendorFirmId = vendor.firm[0]._id;
+
     res.status(200).json({
       success: true,
       vendor,
+      vendorFirmId,
     });
   } catch (error) {
     console.log("Error while getting vendor by id : ", error);
     res.status(500).json({
       success: false,
       message: "coundn't get vendor by id",
+      error: error.message,
     });
   }
 };

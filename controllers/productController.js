@@ -20,8 +20,10 @@ const addProduct = async (req, res) => {
 
   console.log("image file : ", req.file);
 
-  const image = req.file ? req.filename : undefined;
+  const image = req.file ? req.file.filename : undefined;
   const firmId = req.params.firmId;
+
+  console.log("filename : ", image);
 
   const firm = await Firm.findById(firmId);
   if (!firm) {
